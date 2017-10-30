@@ -17,8 +17,12 @@ int main()
 
 	int nRotors, j = 0;
 	cin >> nRotors;
-	cout << nRotors << endl;
 	srand(time(0));
+	int setrand = rand();
+        cout << setrand << endl;
+	srand(setrand);
+	cout << nRotors << endl;
+
 	while(j++ < nRotors)
 	{
 		int r = rand();
