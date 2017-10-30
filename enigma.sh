@@ -30,12 +30,11 @@ CreateTmp() {
 	if [ -d tmp ] ;
 	then
 		echo -e "${GREEN}The tmp directory already exists.${NC}" ;
-		rm -f tmp/* ;
-	else
-		if mkdir tmp ;
-		then echo -e "${GREEN}The tmp directory has been created correctly.${NC}" ;
-		else echo -e "${Error: Could not create tmp directory.}${NC}" ; kill -SIGKILL $$ ;
-		fi;
+		rm -fr tmp ;
+	fi;
+	if mkdir tmp ;
+	then echo -e "${GREEN}The tmp directory has been created correctly.${NC}" ;
+	else echo -e "${Error: Could not create tmp directory.}${NC}" ; kill -SIGKILL $$ ;
 	fi;
 }
 
