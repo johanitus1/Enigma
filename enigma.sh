@@ -153,7 +153,13 @@ Link() {
 	fi;
 }
 
+CreateKey1() {
+	#Generates all the rotors.
+}
 
+CreateKey2() {
+
+}
 
 #Deletes the tmp folder and the files inside it.
 DeleteTmp() {
