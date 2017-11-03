@@ -79,10 +79,52 @@ CompileRotor() {
 		then
 			if Compile ./src/Rotor.cc ./tmp/Rotor.o ;
 				then echo -e "${GREEN}Rotor.cc compiled successfully.${NC}" ;
-               			else echo -e "${RED}Error: Rotor.cc could not be compiled successfully.${NC}"
+        else echo -e "${RED}Error: Rotor.cc could not be compiled successfully.${NC}"
 			fi;
+		else echo -e "${RED}Could not find all resources to compile Rotor.o${NC}"
 		fi;
 	fi;
+}
+
+CompileKey1() {
+	if [ -f ./tmp/key1gen.o ] ;
+	then
+		echo -e "${GREEN}The file key1gen.o already exists.${NC}" ;
+	else
+		if [ -f ./src/KEYGEN/KEY1/key1gen.cc] ;
+		then
+			if Compile ./src/KEYGEN/KEY1/key1gen.cc ./tmp/key1gen.o ;
+			then echo -e "${GREEN}The file key1gen.cc has been compiled succesfully.${NC}" ;
+			else echo -e "${RED}The file key1gen.cc could not be compiled succesfully.${NC}" ;
+			fi ;
+		else echo -e "${RED}Could not find all resources to compile key1gen.o${NC}" ;
+		fi;
+	fi;
+}
+
+
+CompileKey2() {
+	if [ -f ./tmp/key2gen.o ] ;
+	then
+		echo -e "${GREEN}The file key2gen.o already exists.${NC}" ;
+	else
+		if [ -f ./src/KEYGEN/KEY2/key2gen.cc] ;
+		then
+			if Compile ./src/KEYGEN/KEY2/key2gen.cc ./tmp/key2gen.o ;
+			then echo -e "${GREEN}The file key2gen.cc has been compiled succesfully.${NC}" ;
+			else echo -e "${RED}The file key2gen.cc could not be compiled succesfully.${NC}" ;
+			fi ;
+		else echo -e "${RED}Could not find all resources to compile key1gen.o${NC}" ;
+		fi;
+	fi;
+}
+
+CreateKey1() {
+	CompileKey1 ;
+}
+
+CreateKey2() {
+	CompileKey2 ;
 }
 
 #Linking all the files into Enigma.
@@ -111,7 +153,7 @@ Link() {
 	fi;
 }
 
-#
+
 
 #Deletes the tmp folder and the files inside it.
 DeleteTmp() {
@@ -150,6 +192,8 @@ CleanFunctions() {
 	unset Link
 	unset DeleteTmp
 	unset DeleteBin
+	unset CompileKey1
+	unset CompileKey2
 	unset CreateKey1
 	unset CreateKey2
 	unset CleanFunctions
@@ -157,30 +201,34 @@ CleanFunctions() {
 
 #Main execution branch.
 if [ $# -eq 0 ] ;
+then
+	#Default execution
+	CreateBin	;
+	CreateTmp	;
+	CompileProgram	;
+	CompileEnigma	;
+	CompileRotor	;
+	Link		;
+	DeleteTmp	;
+else
+	if [ $# -eq 1 ] ;
 	then
-		#Default execution
-		CreateBin	;
-		CreateTmp	;
-		CompileProgram	;
-		CompileEnigma	;
-		CompileRotor	;
-		Link		;
-		DeleteTmp	;
-	else
-		if [ $# -eq 1 ] ;
-		then if [ $1 == clean ] ;
+		if [ $1 == clean ] ;
+		then
+			#Deletes the bin and tmp.
+			DeleteBin		;
+			DeleteTmp		;
+			echo Terminated.	;
+			exit ;
+		else
+	 		if [ $1 == KEYGEN ] ;
+			#Creates a set of keys for the enigma program.
 			then
-				#Deletes the bin and tmp.
-				DeleteBin		;
-				DeleteTmp		;
-				echo Terminated.	;
-				exit ;
-			else
-		 	if [ $1 == KEYGEN ] ;
-				#Creates a set of keys for the enigma program.
-				then
-					CreateKey1 ;
-					CreateKey2 ;
+				CreateBin  ;
+				CreateTmp  ;
+				CreateKey1 ;
+				CreateKey2 ;
+				DeleteTmp  ;
 				exit ;
 			fi;
 		fi;
