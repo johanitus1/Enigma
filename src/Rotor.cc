@@ -61,6 +61,7 @@ Rotor::~Rotor()
 void Rotor::set_pos(char p)
 {
 	pos = p;
+	// Cambiar la possicio.
 }
 
 char Rotor::crypt_char_fl(char m)
