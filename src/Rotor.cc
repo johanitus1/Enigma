@@ -61,6 +61,7 @@ Rotor::~Rotor()
 void Rotor::set_pos(char p)
 {
 	pos = p;
+	//Hahahahhaha
 }
 
 char Rotor::crypt_char_fl(char m)
